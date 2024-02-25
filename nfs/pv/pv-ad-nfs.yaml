@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-ad-nfs
+spec:
+  storageClassName: pv-ad-nfs
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: "/home/data-pod/admin/source/dist"
+    server: "10.2.2.91"

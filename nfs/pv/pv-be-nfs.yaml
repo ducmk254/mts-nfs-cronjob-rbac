@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-be-nfs-qas
+  namespace: dev-qas
+spec:
+  storageClassName: pv-be-nfs-qas
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: "/home/qas-data-pod/backend/omni_api"
+    server: "10.2.2.91"

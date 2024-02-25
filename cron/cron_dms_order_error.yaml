@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: crondmsordererror
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: pv-be-nfs
+              persistentVolumeClaim:
+                claimName: pvc-be-nfs
+          containers:
+          - name: crondmsordererror
+            image: registry.mutosi.com/backend:latest
+            imagePullPolicy: Always
+            command: ['/bin/php7.4', '/var/www/html/artisan', 'dms_order_error:cron']
+            volumeMounts:
+              - mountPath: /var/www/html
+                name: pv-be-nfs
+          imagePullSecrets:
+            - name: credentials-registry
+          restartPolicy: OnFailure
+

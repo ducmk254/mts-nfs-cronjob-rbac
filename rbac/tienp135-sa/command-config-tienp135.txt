@@ -1,0 +1,4 @@
+kubectl config set-credentials tienp135\
+  --token=$(kubectl get secret -n dev-qas $(kubectl get serviceaccount tienp135 -n dev-qas -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 -d)
+
+kubectl config set-context tienp135-context --cluster=cluster-omni-k8s --user=tienp135 --namespace=dev-qas
