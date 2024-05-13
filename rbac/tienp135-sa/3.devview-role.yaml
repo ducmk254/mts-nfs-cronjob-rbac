@@ -1,0 +1,36 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tienp135
+  namespace: dev-qas #thay doi qyuen han o namespace
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "create", "delete", "watch", "path", "update"]
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["deployments"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["replicasets"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["jobs"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["cronjobs"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["daemonsets"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]

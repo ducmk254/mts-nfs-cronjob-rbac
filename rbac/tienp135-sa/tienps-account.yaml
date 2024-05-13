@@ -1,0 +1,103 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: tienp135
+  namespace: dev-qas # thay doi namespace cho service account
+secrets:
+- name: tienp135-token-secret
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    kubernetes.io/service-account.name: tienp135
+  name: tienp135-token-secret
+  namespace: dev-qas # thay doi namespace cho secret tuong ung voi service account
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: tienp135-role
+  namespace: dev-qas
+rules:
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get", "list"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "list", "create", "delete", "watch", "path", "update"]
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["persistentvolumeclaims"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: [""]
+  resources: ["services"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: ["apps"]
+  resources: ["replicasets"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: ["batch"]
+  resources: ["cronjobs"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+- apiGroups: ["apps"]
+  resources: ["daemonsets"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: tienp135-role-binding
+  namespace: dev-qas # thay doi namespace
+subjects:
+- kind: ServiceAccount
+  name: tienp135
+roleRef:
+  kind: Role
+  name: tienp135-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: tienp135-clusterrole
+rules:
+- apiGroups: [""]
+  resources: ["nodes"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["persistentvolumes"]
+  verbs: ["create","delete","watch","patch","update","get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tienp135-clusterview-binding
+subjects:
+- kind: ServiceAccount
+  name: tienp135
+  namespace: dev-qas # thay doi namesp
+roleRef:
+  kind: ClusterRole
+  name: tienp135-clusterrole
+  apiGroup: rbac.authorization.k8s.io

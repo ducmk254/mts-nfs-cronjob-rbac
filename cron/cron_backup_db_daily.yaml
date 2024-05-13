@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronbackupdaily
+spec:
+  schedule: "1 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cronbackupdaily
+            image: 829949757905.dkr.ecr.ap-southeast-1.amazonaws.com/backend:v1
+            imagePullPolicy: Always
+            command: ['/bin/sh','/home/ec2-user/cron/script/','mysql_backup_mts_daily.sh']
+          restartPolicy: OnFailure
+

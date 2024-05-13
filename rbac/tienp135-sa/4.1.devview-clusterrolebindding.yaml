@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tienp135-clusterview-binding
+subjects:
+- kind: ServiceAccount
+  name: tienp135
+  namespace: dev-qas # thay doi namesp
+roleRef:
+  kind: ClusterRole
+  name: cluster-tienp135
+  apiGroup: rbac.authorization.k8s.io

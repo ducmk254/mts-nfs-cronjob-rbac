@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: croninventoryhistoriesbegin
+spec:
+  schedule: "0 18 * * *"
+  successfulJobsHistoryLimit: 0
+  failedJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          volumes:
+            - name: pv-be-nfs
+              persistentVolumeClaim:
+                claimName: pvc-be-nfs
+          nodeSelector:
+            magnum.openstack.org/nodegroup: default-worker
+          containers:
+          - name: croninventoryhistoriesbegin
+            image: registry.mutosi.com/backend:latest
+            imagePullPolicy: IfNotPresent
+            command: ['/bin/php7.4', '/var/www/html/artisan', 'inventory_histories_begin:cron']
+            volumeMounts:
+              - mountPath: /var/www/html
+                name: pv-be-nfs
+          imagePullSecrets:
+            - name: credentials-registry
+          restartPolicy: OnFailure

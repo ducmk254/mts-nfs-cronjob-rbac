@@ -1,0 +1,7 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronbackupdaily
+spec:
+  schedule: "*/5 * * * *"
+  command: ['docker system prune -a']

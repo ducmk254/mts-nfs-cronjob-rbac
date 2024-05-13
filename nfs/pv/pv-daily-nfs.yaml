@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-daily-nfs
+spec:
+  storageClassName: pv-daily-nfs
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    path: "/home/data-pod/daily/source/dist"
+    server: "10.2.2.91"
